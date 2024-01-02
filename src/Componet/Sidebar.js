@@ -33,6 +33,11 @@ export default function Sidebar() {
                                     <i className="bi bi-circle" /><span>State</span>
                                 </Link>
                             </li>
+                            <li>
+                                <Link to="/city">
+                                    <i className="bi bi-circle" /><span>City</span>
+                                </Link>
+                            </li>
                         </ul>
                     </li>{/* End Components Nav */}
                     <li className="nav-item">

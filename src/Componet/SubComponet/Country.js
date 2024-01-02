@@ -11,10 +11,18 @@ export default function Country() {
     const header = [
         "No", "Country", "Action",
     ];
-    const [tabledata, settabledata] = useState([]);
+    const [countries, setcountries] = useState([]);
     useEffect(() => {
         getdata();
     }, []);
+
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success m-1',
+            cancelButton: 'btn btn-danger m-1'
+        },
+        buttonsStyling: false
+    })
 
     const getdata = () => {
         const options = {
@@ -24,7 +32,7 @@ export default function Country() {
         fetch('http://localhost:5000/get-countries', options)
             .then(response => response.json())
             .then((response) => {
-                settabledata(response.data)
+                setcountries(response.data)
 
             })
             .catch((err) => {
@@ -38,20 +46,16 @@ export default function Country() {
             });
     }
 
-    
-
-    const editcallback=(response)=>{
+    const editcallback = (response) => {
         // console.log(response);
         // if(response.status==1){
-            document.getElementById("btnadd").click();
+        document.getElementById("btnadd").click();
         // }
-        formik.setFieldValue("id",response[0]._id)
-        formik.setFieldValue("country_name",response[0].country_name)
-    
-    }
-    
+        formik.setFieldValue("id", response[0]._id)
+        formik.setFieldValue("country_name", response[0].country_name)
 
-    
+    }
+
     const formik = useFormik({
         initialValues: {
             id: "",
@@ -95,6 +99,62 @@ export default function Country() {
         }
     })
 
+    const deleteCoutries = (id) => {
+        const options = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+        };
+        fetch(`http://localhost:5000/put-countries?id=${id}`, options)
+            .then(response => response.json())
+            .then((response) => {
+
+                if (response.status == 1) {
+                    swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
+                    getdata()
+                } else {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        (response.message),
+                        'error'
+                    )
+                }
+
+
+
+            })
+            .catch((err) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                })
+                console.error(err)
+
+            });
+    }
+    const editCountries = (id) => {
+        console.log(JSON.stringify({ id: id }));
+        const options = {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            //  body:JSON.stringify({values})
+        };
+        fetch(`http://localhost:5000/get-countries?id=${id}`, options)
+            .then(response => response.json())
+            .then((response) => {
+                editcallback(response.data);
+            })
+            .catch((err) => {
+                alert("Server Down")
+                console.error(err)
+
+            });
+    }
+
 
     return (
 
@@ -113,7 +173,7 @@ export default function Country() {
 
                 {/* <!-- Vertically centered Modal --> */}
 
-                <button  type="button" id="btnadd" onClick={e =>formik.resetForm()} className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+                <button type="button" id="btnadd" onClick={e => formik.resetForm()} className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
                     ADD NEW
                 </button>
 
@@ -129,7 +189,7 @@ export default function Country() {
                                     <div class="form-floating mb-3">
                                         <input type="text" className={`form-control ${formik.touched.country_name && formik.errors.country_name ? "red-border" : ""} `} id="country_name" placeholder="India" value={formik.values.country_name} onChange={formik.handleChange} />
                                         <label for="floatingInput">Enter Country</label>
-                                        <span className="text-red">{formik.errors.country_name  }</span>
+                                        <span className="text-red">{formik.errors.country_name}</span>
 
                                     </div>
                                     <button type="submit" class="btn btn-success">Submit</button>
@@ -147,9 +207,9 @@ export default function Country() {
 
                 <Randertabel
                     header={header}
-                    tabledata={tabledata}
-                    deletedatacallback={getdata}
-                    editcallback={editcallback}
+                    tabledata={countries}
+                    deletedatacallback={deleteCoutries}
+                    editcallback={editCountries}
                 />
 
 
