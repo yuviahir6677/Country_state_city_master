@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+.red-border{
+  border: 1px solid red !important;
+
+}
+.text-red{
+  color: red !important;
+}
+.bx{
+  height: 100px;
+  width: 100px;
+}
