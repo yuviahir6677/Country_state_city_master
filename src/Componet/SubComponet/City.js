@@ -4,6 +4,7 @@ import Randertabel from './Ctable';
 import * as Yup from 'yup';
 import { Formik, useFormik } from 'formik';
 import Dropdown from './Dropdown';
+import Header from '../Header';
 
 
 
@@ -234,6 +235,7 @@ export default function City() {
   }
   return (
     <main id="main" className="main">
+      <Header />
       <div className="pagetitle">
         <h1>City</h1>
         <nav>

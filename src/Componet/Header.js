@@ -1,10 +1,46 @@
 import React from 'react'
 import Sidebar from './Sidebar'
+import { Link } from 'react-router-dom'
+import { useCookies } from "react-cookie";
+import Swal from 'sweetalert2'
+import { useNavigate } from "react-router-dom";
+
+
+
 
 export default function Header() {
+  const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies(['krm-token']);
+
+  const logout = () => {
+    // alert("logout")
+    // navigate("/");
+    removeCookie('cookie-name',{path:'/'});
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be Logout!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Logout"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/");
+
+        Swal.fire({
+          title: "Logout",
+          text: "Your Account logout Succecfully",
+          icon: "success"
+        });
+      }
+    });
+
+}
+
   return (
    <div>
-  &lt;&gt;
+  {/* &lt;&gt; */}
   {/* ======= Header ======= */}
   <header id="header" className="header fixed-top d-flex align-items-center">
     <div className="d-flex align-items-center justify-content-between">
@@ -160,10 +196,12 @@ export default function Header() {
               <hr className="dropdown-divider" />
             </li>
             <li>
-              <a className="dropdown-item d-flex align-items-center" href="users-profile.html">
+                <Link to="/myprofile">  
+              <a className="dropdown-item d-flex align-items-center"  >
                 <i className="bi bi-person" />
                 <span>My Profile</span>
               </a>
+                </Link>
             </li>
             <li>
               <hr className="dropdown-divider" />
@@ -189,7 +227,7 @@ export default function Header() {
             <li>
               <a className="dropdown-item d-flex align-items-center" href="#">
                 <i className="bi bi-box-arrow-right" />
-                <span>Sign Out</span>
+                <span onClick={logout}>Sign Out</span>
               </a>
             </li>
           </ul>{/* End Profile Dropdown Items */}

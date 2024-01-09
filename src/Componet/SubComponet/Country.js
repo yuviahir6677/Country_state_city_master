@@ -4,14 +4,20 @@ import { Formik, useFormik } from 'formik';
 import Randertabel from './Ctable';
 import Swal from 'sweetalert2'
 import * as Yup from 'yup';
+import {useCookies } from "react-cookie";
+import Header from '../Header';
+import Sidebar from '../Sidebar';
+
 
 
 export default function Country() {
-
     const header = [
         "No", "Country", "Action",
     ];
     const [countries, setcountries] = useState([]);
+    const [cookies, setCookie, removeCookie] = useCookies(['krm-.krm-token']);
+
+
     useEffect(() => {
         getdata();
     }, []);
@@ -25,9 +31,13 @@ export default function Country() {
     })
 
     const getdata = () => {
+        console.log(cookies['krm-token']);
         const options = {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'krm-token':cookies['krm-token']
+            },
         };
         fetch('http://localhost:5000/get-countries', options)
             .then(response => response.json())
@@ -69,7 +79,9 @@ export default function Country() {
             const options = {
                 method: 'POST',
                 body: JSON.stringify(values),
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'krm-token':cookies['krm-token']},
+                              
+
             };
 
             fetch('http://localhost:5000/post-countries', options)
@@ -102,7 +114,9 @@ export default function Country() {
     const deleteCoutries = (id) => {
         const options = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'krm-token':cookies['krm-token']},
+           
+
         };
         fetch(`http://localhost:5000/put-countries?id=${id}`, options)
             .then(response => response.json())
@@ -140,7 +154,8 @@ export default function Country() {
         console.log(JSON.stringify({ id: id }));
         const options = {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json','krm-token':cookies['krm-token'] },
+
             //  body:JSON.stringify({values})
         };
         fetch(`http://localhost:5000/get-countries?id=${id}`, options)
@@ -159,6 +174,7 @@ export default function Country() {
     return (
 
         <main id="main" className="main">
+            <Header />
             <div className="pagetitle">
                 <h1>Country</h1>
                 <nav>

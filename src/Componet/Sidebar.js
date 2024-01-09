@@ -6,7 +6,7 @@ export default function Sidebar() {
     return (
         <div>
           
-            &lt;&gt;
+            {/* &lt;&gt; */}
             {/* ======= Sidebar ======= */}
             <aside id="sidebar" className="sidebar">
                 <ul className="sidebar-nav" id="sidebar-nav">
@@ -128,13 +128,28 @@ export default function Sidebar() {
                             </li>
                         </ul>
                     </li>{/* End Icons Nav */}
+
+
+
+
+
+
                     <li className="nav-heading">Pages</li>
                     <li className="nav-item">
+                    <Link to="/myprofile">
+
                         <a className="nav-link collapsed" href="users-profile.html">
                             <i className="bi bi-person" />
                             <span>Profile</span>
                         </a>
+                    </Link>
                     </li>{/* End Profile Page Nav */}
+
+
+
+
+
+
                     <li className="nav-item">
                         <a className="nav-link collapsed" href="pages-faq.html">
                             <i className="bi bi-question-circle" />
@@ -148,16 +163,21 @@ export default function Sidebar() {
                         </a>
                     </li>{/* End Contact Page Nav */}
                     <li className="nav-item">
+                        <Link to="/myregister">
                         <a className="nav-link collapsed" href="pages-register.html">
                             <i className="bi bi-card-list" />
                             <span>Register</span>
                         </a>
+                        </Link>
                     </li>{/* End Register Page Nav */}
                     <li className="nav-item">
+                    <Link to="/">
+
                         <a className="nav-link collapsed" href="pages-login.html">
                             <i className="bi bi-box-arrow-in-right" />
                             <span>Login</span>
                         </a>
+                    </Link>    
                     </li>{/* End Login Page Nav */}
                     <li className="nav-item">
                         <a className="nav-link collapsed" href="pages-error-404.html">

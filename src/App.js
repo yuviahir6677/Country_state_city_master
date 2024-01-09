@@ -7,6 +7,9 @@ import Content from './Componet/Content';
 import State from './Componet/SubComponet/State';
 import City from './Componet/SubComponet/City';
 import Error404 from './Componet/Error404';
+import Profile from './profile/profile';
+import Register from './Register/RegisterForm';
+import LoginForm from './login/LoginForm';
 
 
 function App() {
@@ -15,14 +18,17 @@ function App() {
   
    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Header />}>
-          <Route index element={<Header />} />
+
+        <Route path='/' element={<LoginForm/>}/>  
+          <Route index element={<LoginForm/>} />
+        <Route path="header" element={<Header />}/>
           <Route path="country" element={<Country />} />
           <Route path="state" element={<State />} />
           <Route path="city" element={<City />} />
-          {/* <Route path="contact" element={<Contact />} /> */}
-        </Route>
-          <Route path="*" element={<Error404 />} />
+          <Route path='myprofile' element={<Profile/>}/>
+        {/* </Route> */}
+        <Route path='myregister' element={<Register/>}/>  
+        <Route path="*" element={<Error404 />} />
       </Routes>
       {/* <Content /> */}
     </BrowserRouter>
