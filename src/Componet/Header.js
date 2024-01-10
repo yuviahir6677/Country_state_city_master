@@ -1,42 +1,59 @@
 import React from 'react'
 import Sidebar from './Sidebar'
 import { Link } from 'react-router-dom'
-import { useCookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
 
 
 
 
 export default function Header() {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(['krm-token']);
+    // const [cookies, setCookie, removeCookie] = useCookies(['krm-.krm-token']);
+    const [cookies, setCookie, removeCookie] = useCookies(['krm-token']);
+  console.log(useCookies());
 
-  const logout = () => {
-    // alert("logout")
-    // navigate("/");
-    removeCookie('cookie-name',{path:'/'});
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be Logout!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Logout"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        navigate("/");
+  useEffect(() => {
 
-        Swal.fire({
-          title: "Logout",
-          text: "Your Account logout Succecfully",
-          icon: "success"
-        });
-      }
-    });
+    if (cookies['krm-token'] == undefined) {
+      navigate("/");
+    }
+    
+  },);
 
-}
+
+  const Logout = () => {
+    removeCookie('krm-token',{path:'/'});
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be Logout!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Logout"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/");
+          Swal.fire({
+            title: "Logout",
+            text: "Your Account logout Succecfully",
+            icon: "success"
+          });
+        }
+      });
+
+  
+      // navigate("/");
+      // Swal.fire({
+      //   title: "Already exit Accounut",
+      //   text: "Please Login Your Accounut",
+      //   icon: "question"
+      // }); 
+
+  }
 
   return (
    <div>
@@ -227,7 +244,7 @@ export default function Header() {
             <li>
               <a className="dropdown-item d-flex align-items-center" href="#">
                 <i className="bi bi-box-arrow-right" />
-                <span onClick={logout}>Sign Out</span>
+                <span onClick={Logout}>Sign Out</span>
               </a>
             </li>
           </ul>{/* End Profile Dropdown Items */}
